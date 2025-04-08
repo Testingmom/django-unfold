@@ -246,55 +246,64 @@ class UnfoldAdminSite(AdminSite):
             allowed_items = []
 
             for item in group["items"]:
-                if "active" in item:
-                    item["active"] = self._get_value(item["active"], request)
-                else:
-                    item["active"] = self._get_is_active(
-                        request, item.get("link_callback") or item["link"]
-                    )
-
-                # Checks if any tab item is active and then marks the sidebar link as active
-                for tab in tabs:
-                    has_primary_link = False
-                    has_tab_link_active = False
-
-                    for tab_item in tab["items"]:
-                        if item["link"] == tab_item["link"]:
-                            has_primary_link = True
-                            continue
-
-                        if self._get_is_active(
-                            request, tab_item.get("link_callback") or tab_item["link"]
-                        ):
-                            has_tab_link_active = True
-                            break
-
-                    if has_primary_link and has_tab_link_active:
-                        item["active"] = True
-
-                if isinstance(item["link"], Callable):
-                    item["link_callback"] = lazy(item["link"])(request)
-
-                # Permission callback
-                item["has_permission"] = self._call_permission_callback(
-                    item.get("permission"), request
-                )
-
-                # Badge callbacks
-                if "badge" in item and isinstance(item["badge"], str):
-                    try:
-                        callback = import_string(item["badge"])
-                        item["badge_callback"] = lazy(callback)(request)
-                    except ImportError:
-                        pass
-
+                item = self.get_item_props(item, tabs)
+                if 'items' in item:
+                    inner_allowed_items = []
+                    for inner_item in item['items']:
+                        inner_item = self.get_item_props(inner_item)
+                        inner_allowed_items.append(inner_item)
+                    item['items'] = inner_allowed_items
                 allowed_items.append(item)
-
             group["items"] = allowed_items
 
             results.append(group)
 
         return results
+
+    def get_item_props(self, item, tabs):
+        if "active" in item:
+            item["active"] = self._get_value(item["active"], request)
+        else:
+            item["active"] = self._get_is_active(
+                request, item.get("link_callback") or item["link"]
+            )
+
+        # Checks if any tab item is active and then marks the sidebar link as active
+        for tab in tabs:
+            has_primary_link = False
+            has_tab_link_active = False
+
+            for tab_item in tab["items"]:
+                if item["link"] == tab_item["link"]:
+                    has_primary_link = True
+                    continue
+
+                if self._get_is_active(
+                        request, tab_item.get("link_callback") or tab_item["link"]
+                ):
+                    has_tab_link_active = True
+                    break
+
+            if has_primary_link and has_tab_link_active:
+                item["active"] = True
+
+        if isinstance(item["link"], Callable):
+            item["link_callback"] = lazy(item["link"])(request)
+
+        # Permission callback
+        item["has_permission"] = self._call_permission_callback(
+            item.get("permission"), request
+        )
+
+        # Badge callbacks
+        if "badge" in item and isinstance(item["badge"], str):
+            try:
+                callback = import_string(item["badge"])
+                item["badge_callback"] = lazy(callback)(request)
+            except ImportError:
+                pass
+
+        return item
 
     def get_tabs_list(self, request: HttpRequest) -> list[dict[str, Any]]:
         tabs = copy.deepcopy(self._get_config("TABS", request))
