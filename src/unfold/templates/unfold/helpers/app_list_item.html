@@ -1,5 +1,5 @@
 <li>
-    <a href="{% if item.link_callback %}{{ item.link_callback }}{% else %}{{ item.link }}{% endif %}" class="flex h-9.5 items-center -mx-3 px-3 rounded hover:text-primary-600 dark:hover:text-primary-500 {% if item.active %}bg-base-100 font-semibold text-primary-600 dark:bg-white/[.06] dark:text-primary-500{% endif %}">
+    <a href="{% if item.link_callback %}{{ item.link_callback }}{% else %}{{ item.link }}{% endif %}" class="flex h-9.5 items-center -mx-1 px-3 rounded hover:text-primary-600 dark:hover:text-primary-500 {% if item.active %}bg-base-100 font-semibold text-primary-600 dark:bg-white/[.06] dark:text-primary-500{% endif %}">
         {% if item.icon %}
             <span class="material-symbols-outlined md-18 mr-3 w-4.5">
                 {{ item.icon }}

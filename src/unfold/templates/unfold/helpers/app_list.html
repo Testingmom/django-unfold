@@ -30,11 +30,11 @@
                                     {% has_nav_item_active item.items as has_active %}
                                     <li class="hidden mb-2 has-[ol]:has-[li]:block" {% if item.collapsible %}x-data="{navigationOpen: {% if has_active %}true{% else %}false{% endif %}}"{% endif %}>
                                         {% if item.separator %}
-                                            <hr class="border-t border-base-200 mx-6 my-2 dark:border-base-800" />
+                                            <hr class="border-t border-base-200 my-2 dark:border-base-800" />
                                         {% endif %}
 
                                         {% if item.title %}
-                                            <h2 class="font-semibold flex flex-row group items-center mb-1 mx-3 py-1.5 px-3 select-none text-font-important-light text-sm dark:text-font-important-dark {% if group.collapsible %}cursor-pointer hover:text-primary-600 dark:hover:text-primary-500{% endif %}" {% if group.collapsible %}x-on:click="navigationOpen = !navigationOpen"{% endif %}>
+                                            <h2 class="font-semibold flex flex-row group items-center mb-1 py-1.5 px-3 select-none text-font-important-light text-sm dark:text-font-important-dark {% if group.collapsible %}cursor-pointer hover:text-primary-600 dark:hover:text-primary-500{% endif %}" {% if group.collapsible %}x-on:click="navigationOpen = !navigationOpen"{% endif %}>
                                                 {{ item.title }}
 
                                                 {% if item.collapsible %}
