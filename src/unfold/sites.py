@@ -246,12 +246,12 @@ class UnfoldAdminSite(AdminSite):
             allowed_items = []
 
             for item in group["items"]:
-                item = self.get_item_props(item, tabs)
+                item = self.get_item_props(request, item, tabs)
                 if 'items' in item:
                     inner_allowed_items = []
                     for inner_item in item['items']:
                         inner_item = self.get_item_props(inner_item)
-                        inner_allowed_items.append(inner_item)
+                        inner_allowed_items.append(request, inner_item, tabs)
                     item['items'] = inner_allowed_items
                 allowed_items.append(item)
             group["items"] = allowed_items
@@ -260,7 +260,7 @@ class UnfoldAdminSite(AdminSite):
 
         return results
 
-    def get_item_props(self, item, tabs):
+    def get_item_props(self, request, item, tabs):
         if "active" in item:
             item["active"] = self._get_value(item["active"], request)
         else:
