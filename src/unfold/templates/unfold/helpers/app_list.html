@@ -46,10 +46,7 @@
                                         <ol class="flex flex-col gap-1 px-6" {% if group.collapsible %}x-show="navigationOpen"{% endif %}>
                                             {% for inner_item in item.items %}
                                                 {% if inner_item.has_permission %}
-                                                    Has Perm
                                                     {% include "unfold/helpers/app_list_item.html" with item=inner_item %}
-                                                {% else %}
-                                                    No Perm
                                                 {% endif %}
                                             {% endfor %}
                                         </ol>
