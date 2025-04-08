@@ -250,7 +250,7 @@ class UnfoldAdminSite(AdminSite):
                 if 'items' in item:
                     inner_allowed_items = []
                     for inner_item in item['items']:
-                        inner_item = self.get_item_props(inner_item, item, tabs)
+                        inner_item = self.get_item_props(request, inner_item, tabs)
                         inner_allowed_items.append(inner_item)
                     item['items'] = inner_allowed_items
                 allowed_items.append(item)
