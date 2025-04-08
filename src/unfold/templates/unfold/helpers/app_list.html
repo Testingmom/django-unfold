@@ -26,31 +26,30 @@
                     <ol class="flex flex-col gap-1 px-6" {% if group.collapsible %}x-show="navigationOpen"{% endif %}>
                         {% for item in group.items %}
                             {% if item.has_permission %}
-                                {{ item }}
                                 {% if 'items' in item %}
-                                    <div class="hidden mb-2 has-[ol]:has-[li]:block" {% if group.collapsible %}x-data="{navigationOpen: {% if has_active %}true{% else %}false{% endif %}}"{% endif %}>
-                                        {% if group.separator %}
+                                    <div class="hidden mb-2 has-[ol]:has-[li]:block" {% if item.collapsible %}x-data="{navigationOpen: {% if has_active %}true{% else %}false{% endif %}}"{% endif %}>
+                                        {% if item.separator %}
                                             <hr class="border-t border-base-200 mx-6 my-2 dark:border-base-800" />
                                         {% endif %}
 
-                                        {% if group.title %}
+                                        {% if item.title %}
                                             <h2 class="font-semibold flex flex-row group items-center mb-1 mx-3 py-1.5 px-3 select-none text-font-important-light text-sm dark:text-font-important-dark {% if group.collapsible %}cursor-pointer hover:text-primary-600 dark:hover:text-primary-500{% endif %}" {% if group.collapsible %}x-on:click="navigationOpen = !navigationOpen"{% endif %}>
-                                                {{ group.title }}
+                                                {{ item.title }}
 
-                                                {% if group.collapsible %}
+                                                {% if item.collapsible %}
                                                     <span class="material-symbols-outlined ml-auto text-base-400 transition-all group-hover:text-primary-600 dark:group-hover:text-primary-500" x-bind:class="{'rotate-90': navigationOpen}">
                                                         chevron_right
                                                     </span>
                                                 {% endif %}
                                             </h2>
                                         {% endif %}
-                                            <ol class="flex flex-col gap-1 px-6" {% if group.collapsible %}x-show="navigationOpen"{% endif %}>
-                                                {% for item in group.items %}
-                                                    {% if item.has_permission %}
-                                                        {% include "unfold/helpers/app_list_item.html" with item=item %}
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </ol>
+                                        <ol class="flex flex-col gap-1 px-6" {% if group.collapsible %}x-show="navigationOpen"{% endif %}>
+                                            {% for item in item.items %}
+                                                {% if item.has_permission %}
+                                                    {% include "unfold/helpers/app_list_item.html" with item=item %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ol>
                                     </div>
                                 {% else %}
                                     {% include "unfold/helpers/app_list_item.html" with item=item %}
