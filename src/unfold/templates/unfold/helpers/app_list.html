@@ -27,7 +27,7 @@
                         {% for item in group.items %}
                             {% if item.has_permission %}
                                 {% if 'items' in item %}
-                                    {% has_nav_item_active item_active as has_active %}
+                                    {% has_nav_item_active item.items as has_active %}
                                     <li class="hidden mb-2 has-[ol]:has-[li]:block" {% if item.collapsible %}x-data="{navigationOpen: {% if has_active %}true{% else %}false{% endif %}}"{% endif %}>
                                         {% if item.separator %}
                                             <hr class="border-t border-base-200 mx-6 my-2 dark:border-base-800" />
