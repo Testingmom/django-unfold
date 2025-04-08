@@ -44,7 +44,9 @@
                                             </h2>
                                         {% endif %}
                                         <ol class="flex flex-col gap-1 px-6" {% if group.collapsible %}x-show="navigationOpen"{% endif %}>
+                                            {{ item.items }
                                             {% for inner_item in item.items %}
+                                                {{ inner_item }}
                                                 {% if inner_item.has_permission %}
                                                     {% include "unfold/helpers/app_list_item.html" with item=inner_item %}
                                                 {% endif %}
